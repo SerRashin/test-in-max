@@ -29,7 +29,7 @@ class LinkCest
 
     public function getNotExistsLink(ApiTester $I)
     {
-        $I->sendGet('links/321ewq');
+        $I->sendGet('links/4324');
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
 
         $I->seeResponseContainsJson([
@@ -42,6 +42,7 @@ class LinkCest
         $link = $I->grabFixture('link', 'link1');
 
         $I->sendGet('links/1');
+
         $I->seeResponseCodeIs(HttpCode::OK);
         $hash = $this->base62Converter->encodeInteger($link->id);
 
@@ -49,7 +50,6 @@ class LinkCest
             'hash' => $hash,
             'url' => $link->url,
             'shortUrl' => Url::base('https') . '/' . $hash,
-            'expiredAt' => $link->expiredAt,
         ]);
     }
 

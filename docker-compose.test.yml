@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  backend:
+    build:
+      context: ./
+      target: test
+      args:
+        APP_ENV: ${APP_ENV:-test}
+    command: sh -c "composer install && make run-tests"

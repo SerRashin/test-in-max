@@ -1,5 +1,7 @@
-FROM php:8.2-fpm AS base
+FROM php:7.4-fpm AS base
 
+ARG USER_ID=1000
+ARG GROUP_ID=1000
 ARG APP_ENV=dev
 ENV APP_ENV=$APP_ENV
 
@@ -37,10 +39,11 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/ \
     && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
+WORKDIR /app
 
 FROM base as dev
 
-RUN pecl install xdebug \
+RUN pecl install xdebug-3.1.6 \
     && docker-php-ext-enable xdebug \
     && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.start_with_request = yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
@@ -52,13 +55,21 @@ RUN pecl install xdebug \
     && chown www-data:www-data /var/log/xdebug.log \
     && chmod 666 /var/log/xdebug.log
 
-WORKDIR /app
-
 CMD php-fpm -F
+
+FROM dev as test
+
+COPY ./ /app
+
+RUN composer install
 
 FROM base as prod
 
 COPY ./ /app
 
+RUN usermod -u ${USER_ID} www-data
+RUN chown -R www-data:www-data /app
+
+USER "${USER_ID}:${GROUP_ID}"
+
 RUN composer install --no-dev --prefer-dist --no-progress --optimize-autoloader
-RUN php yii cache:clear

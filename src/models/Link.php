@@ -57,6 +57,7 @@ class Link extends ActiveRecord
 
     public function changeExpiredAt(string $date)
     {
+
         $this->expiredAt = (new DateTime(
             $date
         ))->format('Y-m-d H:i:s');
