@@ -1,0 +1,11 @@
+actor: ApiTester
+modules:
+    enabled:
+        - REST:
+            url: /api
+            depends: Yii2
+        - \Helper\Api
+        - Filesystem
+        - Yii2:
+            part: [ fixtures ]
+        - Asserts

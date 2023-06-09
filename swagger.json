@@ -1,0 +1,118 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Shorten API",
+        "version": "1.0"
+    },
+    "basePath": "/api/",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/links": {
+            "post": {
+                "tags": [
+                    "Link"
+                ],
+                "summary": "Create shorten link.",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "required": [
+                                "url"
+                            ],
+                            "properties": {
+                                "url": {
+                                    "description": "Create link action",
+                                    "type": "string"
+                                },
+                                "expiredAt": {
+                                    "description": "Create link action",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Link data",
+                        "schema": {
+                            "properties": {
+                                "hash": {
+                                    "description": "Create link action",
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "description": "Create link action",
+                                    "type": "string"
+                                },
+                                "shortUrl": {
+                                    "description": "Create link action",
+                                    "type": "string"
+                                },
+                                "expiredAt": {
+                                    "description": "Create link action",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/links/{hash}": {
+            "get": {
+                "tags": [
+                    "Link"
+                ],
+                "summary": "View link",
+                "parameters": [
+                    {
+                        "name": "hash",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "default": ""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Link data",
+                        "schema": {
+                            "properties": {
+                                "hash": {
+                                    "description": "View link action",
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "description": "View link action",
+                                    "type": "string"
+                                },
+                                "shortUrl": {
+                                    "description": "View link action",
+                                    "type": "string"
+                                },
+                                "expiredAt": {
+                                    "description": "View link action",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "link not found"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {}
+}
